@@ -1,0 +1,64 @@
+<mat-card>
+    <mat-card-title style="text-align: center;">List Of Existing URLs:</mat-card-title>
+    <mat-card-content>
+        
+        <div class="container mat-elevation-z8">
+            <div class="loading-shade"
+            *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <!-- <div class="no-data" *ngIf="totalRecords===0">
+            Oops! No data found. Start shortening URLs to see some 
+        </div> -->
+        <div class="table-container">
+            
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"
+            matSortActive="urlId" matSortDirection="asc" matSortDisableClear>
+            
+            <!-- URL ID Column -->
+            <ng-container matColumnDef="urlId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="asc"> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.urlId}} </td>
+            </ng-container>
+            
+            <!-- Original URL Column -->
+            <ng-container matColumnDef="originalUrl">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Original URL </th>
+                <td mat-cell *matCellDef="let element" 
+                style="max-width: 250px; overflow-wrap: break-word; padding-right: 5px;"> 
+                {{element.originalUrl}} </td>
+            </ng-container>
+            
+            <!-- Shortened URL Column -->
+            <ng-container matColumnDef="shortenedUrl">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Shortened URL </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <a (click)="fetchGridData(urlGridRequest)" [href]="serverBaseUrl+element.shortenedUrl" target="_blank">
+                        {{serverBaseUrl+element.shortenedUrl}}
+                    </a>
+                </td>
+            </ng-container>
+            
+            <!-- URL Usage Counter Column -->
+            <ng-container matColumnDef="counter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Times Used </th>
+                <td mat-cell *matCellDef="let element"> {{element.counter}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                    Oops! No data found. Start shortening URLs to see some
+                </td>
+              </tr>
+        </table>
+        
+        <div *ngIf="totalRecords >= 5">
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="totalRecords" (page)="pageData($event)" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+</mat-card-content>
+</mat-card>

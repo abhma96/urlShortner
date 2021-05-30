@@ -1,0 +1,41 @@
+
+
+<mat-card>
+  <mat-card-title style="text-align: center;">Enter a URL</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="urlform" #formDirective="ngForm"  (ngSubmit)="submit(formDirective)">
+      <p>
+        <mat-form-field appearance="standard" style="width: 800px;">
+          <mat-label>Enter URL:</mat-label>
+          <input matInput placeholder="Enter URL to shorten..." formControlName="url">
+          <mat-hint *ngIf="urlform.invalid && urlform.touched && urlform.dirty ">Please enter a valid url</mat-hint>
+        </mat-form-field>
+      </p>
+      <br *ngIf="shortenedUrl == null">
+      <br *ngIf="shortenedUrl == null">
+      <p *ngIf="shortenedUrl != null" 
+      style="text-align: left; 
+      max-width: 400px;">
+      Generated URL:
+      <a [href]="serverBaseUrl+shortenedUrl.shortenedUrl" target="_blank" (click)="triggerFetch()">
+           {{serverBaseUrl+shortenedUrl.shortenedUrl}}
+        </a>
+      </p>
+      <p style="margin-top: -45px;">
+        <button mat-flat-button color="primary" [disabled]="!urlform.valid" type="submit">Generate URL</button>
+      </p>
+      
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- <mat-card>
+  <mat-card-title>Your shortened URL: </mat-card-title>
+  <mat-card-content>
+    <div class="mat-cell" colspan="4" *ngIf="shortenedUrl != null">
+      <a [href]="shortenedUrl.shortenedUrl" target="_blank" (click)="triggerFetch()">
+        {{shortenedUrl.shortenedUrl}}
+      </a>
+    </div>
+  </mat-card-content>
+</mat-card> -->
